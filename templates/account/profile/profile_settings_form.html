@@ -1,0 +1,33 @@
+{% extends 'catalog/index.html' %}
+
+{% load catalog_tag %}
+
+{% block account_profile_settings %}active{% endblock %}
+
+{% block content %}
+<div class="container my-5 row">
+    <div style="background-color: white; padding: min(3rem, 5%); " class="rounded border-top col-sm-6 mx-auto border-success shadow-sm">
+        <div class="mx-auto row col-sm-12">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class='alert alert-danger'>{{ field.label_tag }} {{ error }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class='alert alert-danger'>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {{ form.as_p }}
+                <button class="btn btn-outline-success mt-3" type="submit">Сохранить</button>
+                <a href="{% url "account_profile_settings" %}" class="btn btn-outline-secondary mt-3">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
